@@ -653,8 +653,14 @@
                 </Border>
 
                 <Border CornerRadius="3" BorderThickness="0" Padding="3">
-            </Border>
+                    <Border.Effect>
+                        <DropShadowEffect Opacity="0.43"/>
+                    </Border.Effect>
+                </Border>
                 <Border CornerRadius="4">
+                    <Border.Effect>
+                        <DropShadowEffect Opacity="0.43"/>
+                    </Border.Effect>
                     <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
 
 
@@ -758,9 +764,9 @@
                                                     <TextBlock Width="100" TextWrapping="Wrap" VerticalAlignment="Center" Text="Pixel tolerance" Foreground="DarkGray"/>
                                                     <Slider x:Name="ToleranceSlider"  Maximum="200" Width="131" VerticalAlignment="Center"/>
                                                 </StackPanel>
-                                                <TextBlock Margin="4">This is a demo for rooler fluent design that might be added to powertoys. this is a demo and wont get any updates of bug fixes. if you found bugs or other improvement suggestions then submit it at the github issue</TextBlock>
+                                                <TextBlock Margin="4" Width="100" TextWrapping="Wrap">This is a demo for rooler fluent design that might be added to powertoys. this is a demo and wont get any updates of bug fixes. if you found bugs or other improvement suggestions then submit it at the github issue</TextBlock>
                                                 <ui:HyperlinkButton Margin="4" NavigateUri="https://github.com/microsoft/PowerToys/issues/863">Github issue</ui:HyperlinkButton>
-                                                <ui:HyperlinkButton Margin="4" NavigateUri="">Github repo</ui:HyperlinkButton>
+                                                <ui:HyperlinkButton Margin="4" NavigateUri="https://github.com/FireCubeStudios/fluent-rooler-demo">Github repo</ui:HyperlinkButton>
                                                 <ui:HyperlinkButton Margin="4" NavigateUri="https://twitter.com/FireCubeStudios">twitter contact</ui:HyperlinkButton>
                                                 <StackPanel Orientation="Horizontal" Visibility="Collapsed">
                                                     <CheckBox Content="Preserve annotations" Foreground="#FFFFFFFF"  IsChecked="{Binding PreserveAnnotations}"/>
