@@ -31,7 +31,7 @@
 			</Grid.ColumnDefinitions>
 			
 			<Canvas HorizontalAlignment="Left" Margin="8,0,0,6" VerticalAlignment="Bottom" Grid.Column="1">
-				<local:Dimensions x:Name="Dimensions" Text="100" Canvas.Top="-20"/>
+                <local:Dimensions x:Name="Dimensions" Background="{DynamicResource ToolBarBackground}" Foreground="{DynamicResource TextForeground}" Text="100" Canvas.Top="-20"/>
 			</Canvas>
 			
 			<Grid HorizontalAlignment="Right" Margin="0,0,-5,0" x:Name="N">

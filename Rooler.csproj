@@ -123,27 +123,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="BoundsTool.xaml">
+    <Page Include="Tools\BoundsTool.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Capture.xaml">
+    <Page Include="Tools\Capture.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Crash.xaml">
+    <Page Include="Windows\Crash.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DistanceTool.xaml">
+    <Page Include="Tools\DistanceTool.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Settings.xaml">
+    <Page Include="Tools\Settings.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Magnifier.xaml">
+    <Page Include="Tools\Magnifier.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -155,18 +155,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ThemeResources\Dark.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ThemeResources\HighContrast.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ThemeResources\Light.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -175,7 +163,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignTimeOnly>
-    <Compile Include="Settings.xaml.cs">
+    <Compile Include="Tools\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
@@ -185,28 +173,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
-    <Compile Include="BoundsTool.xaml.cs">
+    <Compile Include="Tools\BoundsTool.xaml.cs">
       <DependentUpon>BoundsTool.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Capture.xaml.cs">
+    <Compile Include="Tools\Capture.xaml.cs">
       <DependentUpon>Capture.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Crash.xaml.cs">
+    <Compile Include="Windows\Crash.xaml.cs">
       <DependentUpon>Crash.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dimensions.cs" />
-    <Compile Include="DistanceTool.xaml.cs">
+    <Compile Include="Controls\Dimensions.cs" />
+    <Compile Include="Tools\DistanceTool.xaml.cs">
       <DependentUpon>DistanceTool.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dragger.cs" />
-    <Compile Include="Extensions.cs" />
-    <Compile Include="GridLengthAnimation.cs" />
-    <Compile Include="IntPoint.cs" />
-    <Compile Include="IntRect.cs" />
-    <Compile Include="Magnifier.xaml.cs">
+    <Compile Include="Controls\Dragger.cs" />
+    <Compile Include="Classes\Extensions.cs" />
+    <Compile Include="Classes\GridLengthAnimation.cs" />
+    <Compile Include="Structs\IntPoint.cs" />
+    <Compile Include="Structs\IntRect.cs" />
+    <Compile Include="Tools\Magnifier.xaml.cs">
       <DependentUpon>Magnifier.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NativeMethods.cs" />
+    <Compile Include="Services\NativeMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -216,12 +204,11 @@
     <Compile Include="SampleData\Bounds\Bounds.xaml.cs">
       <DependentUpon>Bounds.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ScreenCoordinates.cs" />
-    <Compile Include="ThemeResources\ToolkitThemeDictionary.cs" />
-    <Compile Include="VirtualizedScreenShot.cs" />
-    <Compile Include="ScreenService.cs" />
-    <Compile Include="ScreenShot.cs" />
-    <Compile Include="Tool.cs">
+    <Compile Include="Classes\ScreenCoordinates.cs" />
+    <Compile Include="Controls\VirtualizedScreenShot.cs" />
+    <Compile Include="Services\ScreenService.cs" />
+    <Compile Include="Controls\ScreenShot.cs" />
+    <Compile Include="Controls\Tool.cs">
     </Compile>
     <None Include="app.config" />
     <None Include="packages.config" />

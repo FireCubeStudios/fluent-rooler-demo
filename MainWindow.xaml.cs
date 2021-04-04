@@ -33,8 +33,9 @@ namespace Rooler {
 #endif
 
 			new Dragger(this.Toolbar);
-
-
+			// very painfull to debug but i have two monitors :cool:
+			this.Topmost = true;
+		
 			this.DataContext = this;
 
 			IntRect screenBounds = ScreenShot.FullScreenBounds;
@@ -184,6 +185,7 @@ namespace Rooler {
 
 			if (this.magnifier != null)
 				this.magnifier.CloseService();
+			this.settings.CloseService();
 
 			Debug.Assert(this.ContentRoot.Children.Count == 0);
 			Debug.Assert(this.currentServices.Count == 0);

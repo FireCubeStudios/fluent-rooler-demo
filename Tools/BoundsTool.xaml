@@ -33,7 +33,7 @@
 			<Rectangle Fill="{DynamicResource MaskBackground}" Grid.Row="1" Grid.Column="2"/>
 			<Rectangle x:Name='BoundsRect' Visibility='Collapsed' Stroke='Red' StrokeThickness='1' Grid.Row="1" Grid.Column="1" />
 			<Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2" Grid.Column="2" Margin="3,23,0,0">
-				<local:Dimensions x:Name="Dimensions" Text="100 x 100" Margin="12" Canvas.Top="-20"/>
+                <local:Dimensions x:Name="Dimensions" Background="{DynamicResource ToolBarBackground}" Foreground="{DynamicResource TextForeground}" Text="100 x 100" Margin="12" Canvas.Top="-20"/>
 			</Canvas>
 		</Grid>
 
