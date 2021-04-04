@@ -17,8 +17,7 @@
 	Foreground="#FFFFFFFF">
 	<!--Background='#00FFFFFF'-->
 
-	<Window.Resources>
-      
+    <Window.Resources>
         <LinearGradientBrush x:Key="MouseOverBackground" EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="#FF797979" Offset="0.504"/>
             <GradientStop Color="#FF9B9B9B" Offset="0.46"/>
@@ -640,35 +639,66 @@
 	<Grid x:Name='LayoutRoot'>
 		<Grid x:Name='ContentRoot'/>
 
-        <Border CornerRadius="4" x:Name='Toolbar'>
-            <Grid HorizontalAlignment="Center" VerticalAlignment="Top"  Height="44" Background="#252525">
+        <Border HorizontalAlignment="Center" VerticalAlignment="Top"  Height="44" x:Name='Toolbar'>
+            <Border.Effect>
+                <DropShadowEffect Opacity="0.43"/>
+            </Border.Effect>
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Border Grid.RowSpan="2" CornerRadius="4">
-                    <Border.Effect>
-                        <DropShadowEffect Opacity="0.43"/>
-                    </Border.Effect>
-                </Border>
 
-                <Border CornerRadius="3" BorderThickness="0" Padding="3">
-                    <Border.Effect>
-                        <DropShadowEffect Opacity="0.43"/>
-                    </Border.Effect>
-                </Border>
                 <Border CornerRadius="4">
-                    <Border.Effect>
-                        <DropShadowEffect Opacity="0.43"/>
-                    </Border.Effect>
-                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid Background="{DynamicResource ToolBarBackground}" HorizontalAlignment="Center" VerticalAlignment="Center"> 
 
 
-                        <StackPanel Orientation='Horizontal' x:Name='Toggles' VerticalAlignment="Center" Margin="30, 0, 0, 0">
-                            <Button Click='StartBounds' VerticalAlignment="Center" ToolTip="Find the bounds of a screen visual" Background="Transparent" Margin="0, 0, 8, 0">
+                        <StackPanel Orientation='Horizontal' x:Name='Toggles' VerticalAlignment="Center" Margin="12, 0, 0, 0">
+                            <Image Height="16" Width="16">
+                                <Image.Source>
+                                    <DrawingImage>
+                                        <DrawingImage.Drawing>
+                                            <DrawingGroup ClipGeometry="M0,0 V16 H8 V0 H0 Z">
+                                                <GeometryDrawing Brush="#FF909090">
+                                                    <GeometryDrawing.Geometry>
+                                                        <EllipseGeometry RadiusX="1.0435" RadiusY="1.0435" Center="1.0435,1.0435" />
+                                                    </GeometryDrawing.Geometry>
+                                                </GeometryDrawing>
+                                                <GeometryDrawing Brush="#FF909090">
+                                                    <GeometryDrawing.Geometry>
+                                                        <EllipseGeometry RadiusX="1.0435" RadiusY="1.0435" Center="6.6087,1.0435" />
+                                                    </GeometryDrawing.Geometry>
+                                                </GeometryDrawing>
+                                                <GeometryDrawing Brush="#FF909090">
+                                                    <GeometryDrawing.Geometry>
+                                                        <EllipseGeometry RadiusX="1.0435" RadiusY="1.0435" Center="1.0435,8" />
+                                                    </GeometryDrawing.Geometry>
+                                                </GeometryDrawing>
+                                                <GeometryDrawing Brush="#FF909090">
+                                                    <GeometryDrawing.Geometry>
+                                                        <EllipseGeometry RadiusX="1.0435" RadiusY="1.0435" Center="6.6087,8" />
+                                                    </GeometryDrawing.Geometry>
+                                                </GeometryDrawing>
+                                                <GeometryDrawing Brush="#FF909090">
+                                                    <GeometryDrawing.Geometry>
+                                                        <EllipseGeometry RadiusX="1.0435" RadiusY="1.0435" Center="1.0435,14.9563" />
+                                                    </GeometryDrawing.Geometry>
+                                                </GeometryDrawing>
+                                                <GeometryDrawing Brush="#FF909090">
+                                                    <GeometryDrawing.Geometry>
+                                                        <EllipseGeometry RadiusX="1.0435" RadiusY="1.0435" Center="6.6087,14.9563" />
+                                                    </GeometryDrawing.Geometry>
+                                                </GeometryDrawing>
+                                            </DrawingGroup>
+                                        </DrawingImage.Drawing>
+                                    </DrawingImage>
+                                </Image.Source>
+                            </Image>
+                          
+                            <Button Click='StartBounds' VerticalAlignment="Center" ToolTip="Find the bounds of a screen visual" Background="Transparent" Margin="12, 0, 8, 0">
                                 <Button.Resources>
                                     <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent"/>
-                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#333333"/>
+                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{DynamicResource ButtonPointerOverBackground}"/>
                                     <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White"/>
                                     <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource SystemAccentColor}"/>
                                 </Button.Resources>
@@ -682,7 +712,7 @@
                             <Button VerticalAlignment="Center" Background="Transparent" Margin="8, 0, 8, 0" Click='StartStretch' ToolTip="Find the spacing between two screen visuals">
                                 <Button.Resources>
                                     <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent"/>
-                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#333333"/>
+                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{DynamicResource ButtonPointerOverBackground}"/>
                                     <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White"/>
                                     <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource SystemAccentColor}"/>
                                 </Button.Resources>
@@ -696,7 +726,7 @@
                             <Button VerticalAlignment="Center" Click='StartStretchEW' ToolTip="Find the spacing between two screen visuals horizontally" Background="Transparent" Margin="8, 0, 8, 0">
                                 <Button.Resources>
                                     <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent"/>
-                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#333333"/>
+                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{DynamicResource ButtonPointerOverBackground}"/>
                                     <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White"/>
                                     <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource SystemAccentColor}"/>
                                 </Button.Resources>
@@ -710,7 +740,7 @@
                             <Button VerticalAlignment="Center" Click='StartStretchNS' ToolTip="Find the spacing between two screen visuals vertically" Background="Transparent" Margin="8, 0, 8, 0">
                                 <Button.Resources>
                                     <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent"/>
-                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#333333"/>
+                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{DynamicResource ButtonPointerOverBackground}"/>
                                     <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White"/>
                                     <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource SystemAccentColor}"/>
                                 </Button.Resources>
@@ -724,7 +754,7 @@
                             <Button Visibility="Collapsed" VerticalAlignment="Center" Click='StartCapture' ToolTip='Capture' x:Name='CaptureButton' Background="Transparent" Margin="8, 0, 8, 0">
                                 <Button.Resources>
                                     <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent"/>
-                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#333333"/>
+                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{DynamicResource ButtonPointerOverBackground}"/>
                                     <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White"/>
                                     <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource SystemAccentColor}"/>
                                 </Button.Resources>
@@ -738,7 +768,7 @@
                             <Button VerticalAlignment="Center" x:Name='Magnify' ToolTip='Magnify' Click='StartMagnify' Background="Transparent" Margin="8, 0, 8, 0">
                                 <Button.Resources>
                                     <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent"/>
-                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#333333"/>
+                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{DynamicResource ButtonPointerOverBackground}"/>
                                     <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White"/>
                                     <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource SystemAccentColor}"/>
                                 </Button.Resources>
@@ -749,45 +779,34 @@
                         </StackPanel>
                         </Button.Content>
                             </Button>
-                            <ui:AppBarButton CornerRadius="4" Icon="Setting" Height="44" Width="36.1" Margin="8, 0, 8, 0">
-                                <ui:AppBarButton.Resources>
-                                    <SolidColorBrush x:Key="AppBarButtonBackgroundDisabled" Color="Transparent"/>
-                                    <SolidColorBrush x:Key="AppBarButtonBackgroundPointerOver" Color="#333333"/>
-                                    <SolidColorBrush x:Key="AppBarButtonForegroundPointerOver" Color="White"/>
-                                    <SolidColorBrush x:Key="AppBarButtonBackgroundPressed" Color="{StaticResource SystemAccentColor}"/>
-                                </ui:AppBarButton.Resources>
-                                <ui:AppBarButton.Flyout>
-                                    <ui:Flyout>
-                                        <Grid >
-                                            <StackPanel>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Width="100" TextWrapping="Wrap" VerticalAlignment="Center" Text="Pixel tolerance" Foreground="DarkGray"/>
-                                                    <Slider x:Name="ToleranceSlider"  Maximum="200" Width="131" VerticalAlignment="Center"/>
-                                                </StackPanel>
-                                                <TextBlock Margin="4" Width="100" TextWrapping="Wrap">This is a demo for rooler fluent design that might be added to powertoys. this is a demo and wont get any updates of bug fixes. if you found bugs or other improvement suggestions then submit it at the github issue</TextBlock>
-                                                <ui:HyperlinkButton Margin="4" NavigateUri="https://github.com/microsoft/PowerToys/issues/863">Github issue</ui:HyperlinkButton>
-                                                <ui:HyperlinkButton Margin="4" NavigateUri="https://github.com/FireCubeStudios/fluent-rooler-demo">Github repo</ui:HyperlinkButton>
-                                                <ui:HyperlinkButton Margin="4" NavigateUri="https://twitter.com/FireCubeStudios">twitter contact</ui:HyperlinkButton>
-                                                <StackPanel Orientation="Horizontal" Visibility="Collapsed">
-                                                    <CheckBox Content="Preserve annotations" Foreground="#FFFFFFFF"  IsChecked="{Binding PreserveAnnotations}"/>
-                                                </StackPanel>
-                                            </StackPanel>
-                                        </Grid>
-                                    </ui:Flyout>
-                                </ui:AppBarButton.Flyout>
-                            </ui:AppBarButton>
-                            <ui:AppBarSeparator/>
-                            <Button VerticalAlignment="Center" Margin="0, 0, 0, 0" Click='Close' Foreground="White" Background="Transparent">
+                            <Button VerticalAlignment="Center" x:Name='SettingsButton' ToolTip='Launch settings' Click='OpenSettings' Background="Transparent" Margin="8, 0, 8, 0">
                                 <Button.Resources>
                                     <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent"/>
-                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="DarkRed"/>
+                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{DynamicResource ButtonPointerOverBackground}"/>
                                     <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White"/>
                                     <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource SystemAccentColor}"/>
                                 </Button.Resources>
                                 <Button.Content>
-                                    <ui:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE711;" Margin="4"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <ui:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE713;"/>
+                                        <TextBlock Margin="6, 4, 4, 4" VerticalAlignment="Center">Settings</TextBlock>
+                                    </StackPanel>
                                 </Button.Content>
                             </Button>
+                            <ui:AppBarSeparator BorderThickness="6"/>
+                            <Border CornerRadius="16">
+                            <ui:AppBarButton VerticalAlignment="Center" Margin="0, 0, 0, 0" Height="44" Width="44" Click='Close'  Background="Transparent">
+                                    <ui:AppBarButton.Resources>
+                                        <SolidColorBrush x:Key="AppBarButtonBackgroundDisabled" Color="Transparent"/>
+                                        <SolidColorBrush x:Key="AppBarButtonBackgroundPointerOver" Color="Red"/>
+                                        <SolidColorBrush x:Key="AppBarButtonForegroundPointerOver" Color="White"/>
+                                        <SolidColorBrush x:Key="AppBarButtonBackgroundPressed" Color="DarkRed"/>
+                                </ui:AppBarButton.Resources>
+                                    <ui:AppBarButton.Icon>
+                                    <ui:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE711;" Margin="0, 4, 0, 0"/>
+                                </ui:AppBarButton.Icon>
+                            </ui:AppBarButton>
+                            </Border>
                             <!--	<Button VerticalAlignment="Center"x:Name='Bounds' Margin="0,0,4,0" Click='StartBounds' ToolTip="Find the bounds of a screen visual">
 						<Grid>
 							<Rectangle Stroke="{DynamicResource Redline}" Width="9" Height="9"/>

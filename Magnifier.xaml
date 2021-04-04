@@ -5,46 +5,7 @@
       xmlns:ui="http://schemas.modernwpf.com/2019" Background="#333333"
 	mc:Ignorable="d" xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" x:Class="Rooler.Magnifier"
 	>
-    <local:Tool.Resources>
-        <Style x:Key="ButtonFocusVisual">
-            <Setter Property="Control.Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <Rectangle Stroke="Black" StrokeDashArray="1 2" StrokeThickness="1" Margin="2" SnapsToDevicePixels="true"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <LinearGradientBrush x:Key="ButtonNormalBackground" EndPoint="0,1" StartPoint="0,0">
-            <GradientStop Color="#F3F3F3" Offset="0"/>
-            <GradientStop Color="#EBEBEB" Offset="0.5"/>
-            <GradientStop Color="#DDDDDD" Offset="0.5"/>
-            <GradientStop Color="#CDCDCD" Offset="1"/>
-        </LinearGradientBrush>
-        <SolidColorBrush x:Key="ButtonNormalBorder" Color="#FF707070"/>
-        <Style x:Key="CloseButton" TargetType="{x:Type Button}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Grid d:DesignWidth="12" d:DesignHeight="12">
-                            <Ellipse Fill="{TemplateBinding Background}" Stroke="{TemplateBinding Foreground}"/>
-                            <Path Stretch="Fill" Stroke="{TemplateBinding Foreground}" Margin="{TemplateBinding Padding}" Data="M0,0 L1,1" StrokeThickness="2"/>
-                            <Path Stretch="Fill" Stroke="{TemplateBinding Foreground}" Margin="{TemplateBinding Padding}" Data="M0,1 L1,0" StrokeThickness="2"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Background" Value="#00FF0000"/>
-            <Setter Property="Padding" Value="4,4,4,4"/>
-            <Setter Property="Foreground" Value="#FF666666"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#90707070"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </local:Tool.Resources>
-    <Grid HorizontalAlignment="Center" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Background="#252525">
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Background="Transparent">
         <Grid.RenderTransform>
             <TransformGroup>
                 <ScaleTransform/>
@@ -61,7 +22,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Border Background="#252525" Grid.RowSpan="2" CornerRadius="4">
+        <Border Background="{DynamicResource ToolBarBackground}" Grid.RowSpan="2" CornerRadius="4">
             <Border.Effect>
                 <DropShadowEffect Opacity="0.43"/>
             </Border.Effect>
@@ -78,40 +39,42 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Image x:Name='Image' RenderOptions.BitmapScalingMode='NearestNeighbor' Grid.ColumnSpan="2" Grid.RowSpan="2"/>
-            <Rectangle Stroke="#FF000000" VerticalAlignment="Bottom" Height="1" Grid.ColumnSpan="2"/>
-            <Rectangle Stroke="#FF000000" HorizontalAlignment="Right" Width="1" Grid.RowSpan="2"/>
+            <Rectangle  Stroke="Red" VerticalAlignment="Bottom" Height="1" Grid.ColumnSpan="2"/>
+            <Rectangle Stroke="Red" HorizontalAlignment="Right" Width="1" Grid.RowSpan="2"/>
         </Grid>
         <StackPanel Margin="0,10,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
         <DockPanel Grid.Row="1" Margin="4,0">
             <StackPanel d:LayoutOverrides="Height">
-                <StackPanel Margin="-4,0,-4,0">
-                    <Rectangle x:Name="ColorSwatchY" Fill="HotPink"  Height="8" />
-                    <Rectangle x:Name="ColorSwatch" Fill="Red"  Height="8" />
-                    <Rectangle x:Name="ColorSwatchX" Fill="DarkRed" Height="8" />
+                <StackPanel Orientation="Horizontal" Margin="-4,0,-4,0">
+                    <Rectangle x:Name="ColorSwatchY" Fill="HotPink" Width="50" Height="16" />
+                    <Rectangle x:Name="ColorSwatch" Fill="Red" Width="200"  Height="16" />
+                    <Rectangle x:Name="ColorSwatchX" Fill="DarkRed" Width="50"  Height="16" />
                 </StackPanel>
                 <Grid Margin="8, 16, 8, 8">
                     <StackPanel HorizontalAlignment="Left">
-                        <TextBlock x:Name="MouseX" Text="X:100" FontFamily="Segoe UI" FontSize="14" Margin="8,0,0,0"  Foreground="#FFFFFFFF" />
-                        <TextBlock x:Name="MouseY" Text="Y:100" FontFamily="Segoe UI" FontSize="14" Foreground="#FFFFFFFF" Margin="8,8,0,0" />
+                        <TextBlock Foreground="{DynamicResource TextForeground}" x:Name="MouseX" Text="X:100" FontFamily="Segoe UI" FontSize="14" Margin="8,0,0,0" />
+                        <TextBlock Foreground="{DynamicResource TextForeground}" x:Name="MouseY" Text="Y:100" FontFamily="Segoe UI" FontSize="14" Margin="8,8,0,0" />
                     </StackPanel>
                     <StackPanel HorizontalAlignment="Right">
-                        <TextBlock x:Name="PixelColor" FontFamily="Segoe UI" FontSize="14" Margin="8,0,0,0" DockPanel.Dock="Right" Text="HEX: #FFFFFFF" Foreground="#FFFFFFFF" />
-                        <TextBlock x:Name="PixelRGBColor" FontFamily="Segoe UI" FontSize="14" Margin="8,8,0,0" DockPanel.Dock="Right" Text="RGB: 255, 255, 255" Foreground="#FFFFFFFF" />
-                        <TextBlock x:Name="PixelHSLColor" FontFamily="Segoe UI" FontSize="14" Margin="8,8,0,0" DockPanel.Dock="Right" Text="HSL: 15, 30%, 50%" Foreground="#FFFFFFFF" />
+                        <TextBlock x:Name="PixelColor" FontFamily="Segoe UI" FontSize="14" Margin="8,0,0,0" DockPanel.Dock="Right" Foreground="{DynamicResource TextForeground}" Text="HEX: #FFFFFFF"/>
+                        <TextBlock x:Name="PixelRGBColor" FontFamily="Segoe UI" FontSize="14" Margin="8,8,0,0" DockPanel.Dock="Right" Foreground="{DynamicResource TextForeground}" Text="RGB: 255, 255, 255"/>
+                        <TextBlock x:Name="PixelHSLColor" FontFamily="Segoe UI" FontSize="14" Margin="8,8,0,0" DockPanel.Dock="Right" Foreground="{DynamicResource TextForeground}" Text="HSL: 15, 30%, 50%"/>
                     </StackPanel>
                 </Grid>
             </StackPanel>
 
 
         </DockPanel>
-        <ui:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8A3;" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,8,0,12"/>
-        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Segoe UI" FontSize="14" Margin="44,8,0,8">Magnifier</TextBlock>
+        <ui:FontIcon FontFamily="Segoe MDL2 Assets" Foreground="{DynamicResource TextForeground}"  Glyph="&#xE8A3;" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,8,0,12"/>
+        <TextBlock HorizontalAlignment="Left" Foreground="{DynamicResource TextForeground}"  VerticalAlignment="Top" FontFamily="Segoe UI" FontSize="14" Margin="44,8,0,8">Magnifier</TextBlock>
+        
         <Button HorizontalAlignment="Right" Click="CloseMagnifier" VerticalAlignment="Top" Background="Transparent">
             <Button.Resources>
                 <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent"/>
-                <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="DarkRed"/>
-                <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White"/>
-                <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource SystemAccentColor}"/>
+                <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Transparent"/>
+                <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="Red"/>
+                <SolidColorBrush x:Key="ButtonForegroundPressed" Color="DarkRed"/>
+                <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="Transparent"/>
             </Button.Resources>
             <Button.Content>
                 <ui:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE711;"/>

@@ -25,13 +25,13 @@ namespace Rooler {
 
 		private static void UnhandledExceptionHandler(object sender, DispatcherUnhandledExceptionEventArgs e) {
 			e.Handled = true;
-
-			Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new DispatcherOperationCallback(delegate {
+			//disable as bad user experience and "crashes" for things that are working
+		/*	Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new DispatcherOperationCallback(delegate {
 
 				Crash crash = new Crash(e.Exception.Message + e.Exception.StackTrace);
 				crash.Show();
 				return null;
-			}), null);
+			}), null);*/
 		}
 	}
 }

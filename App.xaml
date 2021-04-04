@@ -1,14 +1,31 @@
 ﻿<Application
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" x:Class="Rooler.App"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    x:Class="Rooler.App"
+    xmlns:local="clr-namespace:Rooler"
 		StartupUri='MainWindow.xaml' mc:Ignorable="d"
          xmlns:ui="http://schemas.modernwpf.com/2019">
     <Application.Resources>
          
     	<ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ui:ThemeResources />
+                <ui:ThemeResources>
+                    <ui:ThemeResources.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Light" ui:ThemeDictionary.Key="Light">
+                            <SolidColorBrush x:Key="ToolBarBackground" Color="#FAFAFA" />
+                            <SolidColorBrush x:Key="TextForeground" Color="#000000" />
+                            <Color x:Key="ButtonPointerOverBackground" A="255" R="225" G="225" B="225"/>
+                        </ResourceDictionary>
+
+                        <ResourceDictionary x:Key="Dark" ui:ThemeDictionary.Key="Dark">
+                            <SolidColorBrush x:Key="ToolBarBackground" Color="#212121" />
+                            <SolidColorBrush x:Key="TextForeground" Color="#FFFFFF" />
+                            <Color x:Key="ButtonPointerOverBackground" A="255" R="50" G="50" B="50"/>
+                        </ResourceDictionary>
+                    </ui:ThemeResources.ThemeDictionaries>
+                </ui:ThemeResources>
                 <ResourceDictionary Source="pack://application:,,,/FluentWPF;component/Styles/Controls.xaml" />
                 <ui:XamlControlsResources />
             </ResourceDictionary.MergedDictionaries>

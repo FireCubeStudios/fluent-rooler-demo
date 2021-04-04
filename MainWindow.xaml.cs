@@ -19,6 +19,8 @@ namespace Rooler {
 
 		private Magnifier magnifier;
 
+		public Settings settings;
+
 		public MainWindow() {
 
 			this.InitializeComponent();
@@ -32,11 +34,6 @@ namespace Rooler {
 
 			new Dragger(this.Toolbar);
 
-			this.ToleranceSlider.Value = ScreenCoordinates.ColorTolerance;
-
-			this.ToleranceSlider.ValueChanged += delegate {
-				ScreenCoordinates.ColorTolerance = this.ToleranceSlider.Value;
-			};
 
 			this.DataContext = this;
 
@@ -96,7 +93,11 @@ namespace Rooler {
 				this.magnifier = null;
 			};
 		}
-
+		public void OpenSettings(object sender, EventArgs e)
+		{
+			this.settings = new Settings(this);
+			this.ContentRoot.Children.Add(this.settings.Visual);
+		}
 		private void StopMagnify(object sender, EventArgs e) {
 			if (this.magnifier != null)
 				this.magnifier.CloseService();
@@ -188,13 +189,7 @@ namespace Rooler {
 			Debug.Assert(this.currentServices.Count == 0);
 		}
 
-		protected override void OnMouseWheel(MouseWheelEventArgs e) {
-			base.OnMouseWheel(e);
-			this.ToleranceSlider.Value += e.Delta * .05;
-
-			if (this.CurrentService != null)
-				this.CurrentService.Update();
-		}
+		
 
 		public event PropertyChangedEventHandler PropertyChanged;
 		protected void OnPropertyChanged(string propertyName) {
