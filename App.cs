@@ -1,37 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Threading;
 
-namespace Rooler {
+namespace Rooler
+{
 
-	public partial class App : Application {
+    public partial class App : Application
+    {
 
 
-		public App() {
+        public App()
+        {
 
-			this.DispatcherUnhandledException += App.UnhandledExceptionHandler;
+            this.DispatcherUnhandledException += App.UnhandledExceptionHandler;
 
-			this.InitializeComponent();
+            this.InitializeComponent();
 
-			//this.mainWindow = new MainWindow();
-			//this.mainWindow.Show();
+            //this.mainWindow = new MainWindow();
+            //this.mainWindow.Show();
 
-			//this.Run();
-		}
+            //this.Run();
+        }
 
-		private static void UnhandledExceptionHandler(object sender, DispatcherUnhandledExceptionEventArgs e) {
-			e.Handled = true;
-			//disable as bad user experience and "crashes" for things that are working
-		/*	Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new DispatcherOperationCallback(delegate {
+        private static void UnhandledExceptionHandler(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            e.Handled = true;
+            //disable as bad user experience and "crashes" for things that are working
+            /*	Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new DispatcherOperationCallback(delegate {
 
-				Crash crash = new Crash(e.Exception.Message + e.Exception.StackTrace);
-				crash.Show();
-				return null;
-			}), null);*/
-		}
-	}
+                    Crash crash = new Crash(e.Exception.Message + e.Exception.StackTrace);
+                    crash.Show();
+                    return null;
+                }), null);*/
+        }
+    }
 }

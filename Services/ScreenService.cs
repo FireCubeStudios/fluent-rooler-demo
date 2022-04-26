@@ -1,21 +1,24 @@
 ﻿using System;
 using System.Windows;
 
-namespace Rooler {
-	public interface IScreenService {
+namespace Rooler
+{
+    public interface IScreenService
+    {
 
-		FrameworkElement Visual { get; }
+        FrameworkElement Visual { get; }
 
-		void CloseService();
-		void Update();
+        void CloseService();
+        void Update();
 
-		event EventHandler ServiceClosed;
+        event EventHandler ServiceClosed;
 
-		bool IsFrozen { get; }
-	}
+        bool IsFrozen { get; }
+    }
 
-	public interface IScreenServiceHost {
-		bool PreserveAnnotations { get; }
-		IScreenShot CurrentScreen { get; }
-	}
+    public interface IScreenServiceHost
+    {
+        bool PreserveAnnotations { get; }
+        IScreenShot CurrentScreen { get; }
+    }
 }
