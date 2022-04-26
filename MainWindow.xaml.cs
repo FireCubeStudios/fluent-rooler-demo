@@ -2,28 +2,34 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
+using System.Windows.Interop;
 
-namespace Rooler {
-	/// <summary>
-	/// Interaction logic for Window1.xaml
-	/// </summary>
-	public partial class MainWindow : Window, INotifyPropertyChanged, IScreenServiceHost {
+namespace Rooler
+{
+    /// <summary>
+    /// Interaction logic for Window1.xaml
+    /// </summary>
+    public partial class MainWindow : Window, INotifyPropertyChanged, IScreenServiceHost
+    {
+        private IScreenService currentService = null;
 
+        private List<IScreenService> currentServices = new List<IScreenService>();
 
-		private IScreenService currentService = null;
+        private readonly WeakReference<Magnifier> magnifier = new(null);
 
-		private List<IScreenService> currentServices = new List<IScreenService>();
+        private readonly WeakReference<Settings> settings = new(null);
 
-		private Magnifier magnifier;
+        [DllImport("User32.dll")]
+        private static extern int SetWindowBand(IntPtr hWnd, IntPtr hwndInsertAfter, uint dwBand);
 
-		public Settings settings;
+        public MainWindow()
+        {
 
-		public MainWindow() {
-
-			this.InitializeComponent();
+            this.InitializeComponent();
 
 #if !DEBUG
 			// Makes it a royal pain to debug...
@@ -32,173 +38,203 @@ namespace Rooler {
 			//this.CaptureButton.Visibility = Visibility.Collapsed;
 #endif
 
-			new Dragger(this.Toolbar);
-			// very painfull to debug but i have two monitors :cool:
-			this.Topmost = true;
-		
-			this.DataContext = this;
+            new Dragger(this.Toolbar);
+            // very painfull to debug but i have two monitors :cool:
+            this.Topmost = true;
+            this.DataContext = this;
 
-			IntRect screenBounds = ScreenShot.FullScreenBounds;
-			this.Top = screenBounds.Top;
-			this.Left = screenBounds.Left;
-			this.Width = screenBounds.Width;
-			this.Height = screenBounds.Height;
-		}
+            IntRect screenBounds = ScreenShot.FullScreenBounds;
+            this.Top = screenBounds.Top;
+            this.Left = screenBounds.Left;
+            this.Width = screenBounds.Width;
+            this.Height = screenBounds.Height;
+        }
 
-		private bool preserveAnnotations;
-		public bool PreserveAnnotations {
-			get { return this.preserveAnnotations; }
-			set {
-				this.preserveAnnotations = value;
-				this.OnPropertyChanged("PreserveAnnotations");
-			}
-		}
+        private bool preserveAnnotations;
+        public bool PreserveAnnotations
+        {
+            get { return this.preserveAnnotations; }
+            set
+            {
+                this.preserveAnnotations = value;
+                this.OnPropertyChanged("PreserveAnnotations");
+            }
+        }
 
-		protected override void OnDeactivated(EventArgs e) {
+        protected override void OnDeactivated(EventArgs e)
+        {
 
-			this.CurrentService = null;
+            this.CurrentService = null;
 
 
-			base.OnDeactivated(e);
-		}
+            base.OnDeactivated(e);
+        }
 
-		private void StartBounds(object sender, EventArgs e) {
-			this.CurrentService = new BoundsTool(this);
-		}
+        private void StartBounds(object sender, EventArgs e)
+        {
+            this.CurrentService = new BoundsTool(this);
+        }
 
-		private void StartStretch(object sender, EventArgs e) {
-			this.CurrentService = new DistanceTool(StretchMode.NorthSouthEastWest, this);
-		}
+        private void StartStretch(object sender, EventArgs e)
+        {
+            this.CurrentService = new DistanceTool(StretchMode.NorthSouthEastWest, this);
+        }
 
-		private void StartStretchNS(object sender, EventArgs e) {
-			this.CurrentService = new DistanceTool(StretchMode.NorthSouth, this);
-		}
+        private void StartStretchNS(object sender, EventArgs e)
+        {
+            this.CurrentService = new DistanceTool(StretchMode.NorthSouth, this);
+        }
 
-		private void StartStretchEW(object sender, EventArgs e) {
-			this.CurrentService = new DistanceTool(StretchMode.EastWest, this);
-		}
+        private void StartStretchEW(object sender, EventArgs e)
+        {
+            this.CurrentService = new DistanceTool(StretchMode.EastWest, this);
+        }
 
-		private void StartMagnify(object sender, EventArgs e) {
+        private void StartMagnify(object sender, EventArgs e)
+        {
+            Magnifier magnifierFlyout;
+            if (!this.magnifier.TryGetTarget(out magnifierFlyout))
+            {
+                magnifierFlyout = new(this);
+                this.magnifier.SetTarget(magnifierFlyout);
+            }
 
-			if (this.magnifier != null) {
-				this.magnifier.CloseService();
-				this.magnifier = null;
-			}
+            magnifierFlyout.Show(this.ContentRoot);
+        }
 
-			this.magnifier = new Magnifier(this);
-			this.ContentRoot.Children.Add(this.magnifier.Visual);
+        public void OpenSettings(object sender, EventArgs e)
+        {
+            Settings settingsFlyout;
+            if (!this.settings.TryGetTarget(out settingsFlyout))
+            {
+                settingsFlyout = new Settings(this);
+                this.settings.SetTarget(settingsFlyout);
+            }
 
-			this.magnifier.ServiceClosed += delegate {
-				if (this.magnifier != null)
-					this.ContentRoot.Children.Remove(this.magnifier.Visual);
-				this.magnifier = null;
-			};
-		}
-		public void OpenSettings(object sender, EventArgs e)
-		{
-			this.settings = new Settings(this);
-			this.ContentRoot.Children.Add(this.settings.Visual);
-		}
-		private void StopMagnify(object sender, EventArgs e) {
-			if (this.magnifier != null)
-				this.magnifier.CloseService();
-		}
+            settingsFlyout.Show(this.ContentRoot);
+        }
 
-		private void StartCapture(object sender, EventArgs e) {
-			this.CurrentService = new Capture(this);
-		}
+        private void StopMagnify(object sender, EventArgs e)
+        {
+            if (magnifier.TryGetTarget(out var magnifierFlyout))
+                magnifierFlyout.CloseService();
+        }
 
-		public IScreenService CurrentService {
-			get { return this.currentService; }
-			set {
-				if (this.currentService != null) {
-					if (!this.PreserveAnnotations && !this.currentService.IsFrozen) {
-						this.currentService.CloseService();
-						Debug.Assert(this.currentService == null);
-					}
-				}
+        private void StartCapture(object sender, EventArgs e)
+        {
+            this.CurrentService = new Capture(this);
+        }
 
-				this.currentService = value;
+        public IScreenService CurrentService
+        {
+            get { return this.currentService; }
+            set
+            {
+                if (this.currentService != null)
+                {
+                    if (!this.PreserveAnnotations && !this.currentService.IsFrozen)
+                    {
+                        this.currentService.CloseService();
+                        Debug.Assert(this.currentService == null);
+                    }
+                }
 
-				if (this.currentService != null) {
-					this.currentServices.Add(this.currentService);
-					this.ContentRoot.Children.Add(this.currentService.Visual);
-					this.currentService.ServiceClosed += this.ServiceClosed;
-				}
-			}
-		}
+                this.currentService = value;
 
-		private IScreenShot lastScreenshot;
-		public IScreenShot CurrentScreen {
-			get {
-				if (this.currentServices.Count == 0) {
-					this.lastScreenshot = new VirtualizedScreenShot();
-					//this.lastScreenshot = new ScreenShot();
-				}
-				return this.lastScreenshot;
-			}
-		}
+                if (this.currentService != null)
+                {
+                    this.currentServices.Add(this.currentService);
+                    this.ContentRoot.Children.Add(this.currentService.Visual);
+                    this.currentService.ServiceClosed += this.ServiceClosed;
+                }
+            }
+        }
 
-		private void ServiceClosed(object sender, EventArgs e) {
+        private IScreenShot lastScreenshot;
 
-			IScreenService service = (IScreenService)sender;
+        public IScreenShot CurrentScreen
+        {
+            get
+            {
+                if (this.currentServices.Count == 0)
+                {
+                    this.lastScreenshot = new VirtualizedScreenShot();
+                    //this.lastScreenshot = new ScreenShot();
+                }
+                return this.lastScreenshot;
+            }
+        }
 
-			service.ServiceClosed -= this.ServiceClosed;
+        private void ServiceClosed(object sender, EventArgs e)
+        {
 
-			this.currentServices.Remove(service);
-			this.ContentRoot.Children.Remove(service.Visual);
-			//service.Visual.Close();
+            IScreenService service = (IScreenService)sender;
 
-			if (service == this.currentService)
-				this.currentService = null;
+            service.ServiceClosed -= this.ServiceClosed;
 
-			foreach (UIElement child in this.Toggles.Children) {
-				ToggleButton tb = child as ToggleButton;
-				if (tb != null)
-					tb.IsChecked = false;
-			}
-		}
+            this.currentServices.Remove(service);
+            this.ContentRoot.Children.Remove(service.Visual);
+            //service.Visual.Close();
 
-		private void Close(object sender, EventArgs e) {
-			this.Close();
-		}
+            if (service == this.currentService)
+                this.currentService = null;
 
-		protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e) {
-			base.OnMouseLeftButtonDown(e);
+            foreach (UIElement child in this.Toggles.Children)
+            {
+                ToggleButton tb = child as ToggleButton;
+                if (tb != null)
+                    tb.IsChecked = false;
+            }
+        }
 
-			this.DragMove();
-		}
+        private void Close(object sender, EventArgs e)
+        {
+            this.Close();
+        }
 
-		protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e) {
-			base.OnKeyDown(e);
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
 
-			if (e.Key == Key.Escape) {
-				this.CloseAllServices();
-			}
-		}
+            this.DragMove();
+        }
 
-		private void CloseAllServices() {
-			List<IScreenService> currentServices = new List<IScreenService>(this.currentServices);
-			foreach (IScreenService service in currentServices) {
-				service.CloseService();
-			}
+        protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
 
-			if (this.magnifier != null)
-				this.magnifier.CloseService();
-			this.settings.CloseService();
+            if (e.Key == Key.Escape)
+            {
+                this.CloseAllServices();
+            }
+        }
 
-			Debug.Assert(this.ContentRoot.Children.Count == 0);
-			Debug.Assert(this.currentServices.Count == 0);
-		}
+        private void CloseAllServices()
+        {
+            List<IScreenService> currentServices = new List<IScreenService>(this.currentServices);
+            foreach (IScreenService service in currentServices)
+            {
+                service.CloseService();
+            }
 
-		
+            StopMagnify(null, EventArgs.Empty);
 
-		public event PropertyChangedEventHandler PropertyChanged;
-		protected void OnPropertyChanged(string propertyName) {
-			Debug.Assert(this.GetType().GetProperty(propertyName) != null);
-			if (this.PropertyChanged != null)
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-		}
+            if (settings.TryGetTarget(out var settingsFlyout))
+                settingsFlyout.CloseService();
 
-	}
+            Debug.Assert(this.ContentRoot.Children.Count == 0);
+            Debug.Assert(this.currentServices.Count == 0);
+        }
+
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+        {
+            Debug.Assert(this.GetType().GetProperty(propertyName) != null);
+            if (this.PropertyChanged != null)
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+    }
 }

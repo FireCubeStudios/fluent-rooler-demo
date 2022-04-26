@@ -1,152 +1,168 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.IO;
 
-namespace Rooler {
+namespace Rooler
+{
 
-	public enum StretchMode {
-		NorthSouth,
-		EastWest,
-		NorthSouthEastWest,
-	}
-	/// <summary>
-	/// Interaction logic for DistanceAdorner.xaml
-	/// </summary>
-	public partial class DistanceTool : Tool, IScreenService {
+    public enum StretchMode
+    {
+        NorthSouth,
+        EastWest,
+        NorthSouthEastWest,
+    }
+    /// <summary>
+    /// Interaction logic for DistanceAdorner.xaml
+    /// </summary>
+    public partial class DistanceTool : Tool, IScreenService
+    {
 
-		private IntPoint previousPoint = new IntPoint();
-		private IScreenShot screenshot;
+        private IntPoint previousPoint = new IntPoint();
+        private IScreenShot screenshot;
 
-		public DistanceTool(StretchMode stretch, IScreenServiceHost host): base(host) {
-			this.StretchMode = stretch;
+        public DistanceTool(StretchMode stretch, IScreenServiceHost host) : base(host)
+        {
+            this.StretchMode = stretch;
 
-			this.screenshot = this.Host.CurrentScreen;
+            this.screenshot = this.Host.CurrentScreen;
 
-			this.InitializeComponent();
+            this.InitializeComponent();
 
-			if (this.StretchMode == StretchMode.EastWest) {
-				this.N.Visibility = Visibility.Collapsed;
-				this.S.Visibility = Visibility.Collapsed;
-			}
-			else if (this.StretchMode == StretchMode.NorthSouth) {
-				this.E.Visibility = Visibility.Collapsed;
-				this.W.Visibility = Visibility.Collapsed;
-			}
+            if (this.StretchMode == StretchMode.EastWest)
+            {
+                this.N.Visibility = Visibility.Collapsed;
+                this.S.Visibility = Visibility.Collapsed;
+            }
+            else if (this.StretchMode == StretchMode.NorthSouth)
+            {
+                this.E.Visibility = Visibility.Collapsed;
+                this.W.Visibility = Visibility.Collapsed;
+            }
 #if !DEBUG
 			this.Cursor = Cursors.None;
 #endif
 
-			this.Dimensions.CloseClicked += delegate {
-				this.CloseService();
-			};
+            this.Dimensions.CloseClicked += delegate
+            {
+                this.CloseService();
+            };
 
-			this.Loaded += delegate {
-				this.Update();
-			};
-		}
-		
+            this.Loaded += delegate
+            {
+                this.Update();
+            };
+        }
 
-		public StretchMode StretchMode { get; set; }
 
-		protected override void OnMouseMove(MouseEventArgs e) {
-			base.OnMouseMove(e);
+        public StretchMode StretchMode { get; set; }
 
-			if (!this.IsFrozen)
-				this.Update(false);
-		}
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
 
-		public override void Update() {
-			this.Update(true);
-		}
+            if (!this.IsFrozen)
+                this.Update(false);
+        }
 
-		private void Update(bool force) {
-			IntPoint mousePt = NativeMethods.GetCursorPos();
+        public override void Update()
+        {
+            this.Update(true);
+        }
 
-			if (Keyboard.IsKeyDown(Key.Space)) {
-			      }
+        private void Update(bool force)
+        {
+            IntPoint mousePt = NativeMethods.GetCursorPos();
 
-			if (force || mousePt != this.previousPoint) {
-				this.previousPoint = mousePt;
+            if (Keyboard.IsKeyDown(Key.Space))
+            {
+            }
 
-				IntRect rect = ScreenCoordinates.ExpandPoint(mousePt, this.screenshot);
-				if (!rect.IsEmpty) {
-					this.UpdateBounds(rect, mousePt);
-				}
-			}
-		}
+            if (force || mousePt != this.previousPoint)
+            {
+                this.previousPoint = mousePt;
 
-		protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e) {
-			base.OnMouseLeftButtonDown(e);
+                IntRect rect = ScreenCoordinates.ExpandPoint(mousePt, this.screenshot);
+                if (!rect.IsEmpty)
+                {
+                    this.UpdateBounds(rect, mousePt);
+                }
+            }
+        }
 
-			if (!this.Host.PreserveAnnotations)
-				this.CloseService();
-			else
-				this.Freeze();
-		}
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
 
-		protected override void OnKeyDown(KeyEventArgs e) {
-			switch (e.Key) {
-				case Key.Enter:
-					this.Freeze();
-					e.Handled = true;
-					break;
-			}
-			base.OnKeyDown(e);
-		}
+            if (!this.Host.PreserveAnnotations)
+                this.CloseService();
+            else
+                this.Freeze();
+        }
 
-		protected override void Freeze() {
-			base.Freeze();
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.Enter:
+                    this.Freeze();
+                    e.Handled = true;
+                    break;
+            }
+            base.OnKeyDown(e);
+        }
 
-			this.Background = null;
-			this.Cursor = Cursors.Arrow;
-			this.Dimensions.CanClose = true;
-		}
+        protected override void Freeze()
+        {
+            base.Freeze();
 
-		protected void UpdateBounds(IntRect screenBounds, IntPoint point) {
+            this.Background = null;
+            this.Cursor = Cursors.Arrow;
+            this.Dimensions.CanClose = true;
+        }
 
-			Rect bounds = NativeMethods.ScreenToClient(this, screenBounds);
-			Point screenPoint = NativeMethods.ScreenToClient(this, point);
+        protected void UpdateBounds(IntRect screenBounds, IntPoint point)
+        {
 
-			this.Bounds.Width = bounds.Width;
-			this.Bounds.Height = bounds.Height;
+            Rect bounds = NativeMethods.ScreenToClient(this, screenBounds);
+            Point screenPoint = NativeMethods.ScreenToClient(this, point);
 
-			
-			this.Bounds.Margin = new Thickness(bounds.Left, bounds.Top, 0, 0);
+            this.Bounds.Width = bounds.Width;
+            this.Bounds.Height = bounds.Height;
 
-			this.CenterY.Height = new GridLength(Math.Max(screenPoint.Y - bounds.Y, 0));
-			this.CenterX.Width = new GridLength(Math.Max(screenPoint.X - bounds.X, 0));
 
-			if (this.StretchMode == StretchMode.EastWest)
-				this.Dimensions.Text = string.Format(@"{0}", screenBounds.Width);
-			else if (this.StretchMode == StretchMode.NorthSouth)
-				this.Dimensions.Text = string.Format(@"{0}", screenBounds.Height);
-			else
-				this.Dimensions.Text = string.Format(@"{0} x {1}", screenBounds.Width, screenBounds.Height);
-		}
+            this.Bounds.Margin = new Thickness(bounds.Left, bounds.Top, 0, 0);
 
-		//protected override void OnKeyUp(KeyEventArgs e) {
-		//    base.OnKeyUp(e);
+            this.CenterY.Height = new GridLength(Math.Max(screenPoint.Y - bounds.Y, 0));
+            this.CenterX.Width = new GridLength(Math.Max(screenPoint.X - bounds.X, 0));
 
-		//    if (e.Key == Key.D) {
-		//        VirtualizedScreenShot vs = this.screenshot as VirtualizedScreenShot;
-		//        if (vs != null) {
-		//            Point mousePt = NativeMethods.GetCursorPos();
-		//            ScreenShot currentTile = vs.GetTile((int)mousePt.X, (int)mousePt.Y);
+            if (this.StretchMode == StretchMode.EastWest)
+                this.Dimensions.Text = string.Format(@"{0}", screenBounds.Width);
+            else if (this.StretchMode == StretchMode.NorthSouth)
+                this.Dimensions.Text = string.Format(@"{0}", screenBounds.Height);
+            else
+                this.Dimensions.Text = string.Format(@"{0} x {1}", screenBounds.Width, screenBounds.Height);
+        }
 
-		//            if (currentTile != null) {
-		//                BitmapFrame frame = BitmapFrame.Create(currentTile.Image);
-		//                PngBitmapEncoder encoder = new PngBitmapEncoder();
-		//                encoder.Frames.Add(frame);
+        //protected override void OnKeyUp(KeyEventArgs e) {
+        //    base.OnKeyUp(e);
 
-		//                using (FileStream fs = new FileStream(@"C:\tmp\ss.png", FileMode.Create, FileAccess.Write)) {
-		//                    encoder.Save(fs);
-		//                };
-		//            }
-		//        }
-		//    }
-		//}
-	}
+        //    if (e.Key == Key.D) {
+        //        VirtualizedScreenShot vs = this.screenshot as VirtualizedScreenShot;
+        //        if (vs != null) {
+        //            Point mousePt = NativeMethods.GetCursorPos();
+        //            ScreenShot currentTile = vs.GetTile((int)mousePt.X, (int)mousePt.Y);
+
+        //            if (currentTile != null) {
+        //                BitmapFrame frame = BitmapFrame.Create(currentTile.Image);
+        //                PngBitmapEncoder encoder = new PngBitmapEncoder();
+        //                encoder.Frames.Add(frame);
+
+        //                using (FileStream fs = new FileStream(@"C:\tmp\ss.png", FileMode.Create, FileAccess.Write)) {
+        //                    encoder.Save(fs);
+        //                };
+        //            }
+        //        }
+        //    }
+        //}
+    }
 }
