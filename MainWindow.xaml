@@ -1001,10 +1001,10 @@
                             </Image>
 
                             <Button
-                                Margin="12,0,8,0"
+                                Margin="12,0,0,0"
                                 VerticalAlignment="Center"
                                 Background="Transparent"
-                                Click="StartBounds"
+                                Click="COllapseClick"
                                 ToolTip="Find the bounds of a screen visual">
                                 <Button.Resources>
                                     <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
@@ -1014,69 +1014,88 @@
                                 </Button.Resources>
                                 <Button.Content>
                                     <StackPanel Orientation="Horizontal">
-                                        <ui:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEF20;" />
-                                        <TextBlock Margin="6,4,4,4" VerticalAlignment="Center">Bound</TextBlock>
+                                        <ui:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE76B;" x:Name="CollapseIcon" />
                                     </StackPanel>
                                 </Button.Content>
                             </Button>
-                            <Button
+                            <StackPanel x:Name="CollapsableRegion" Orientation="Horizontal">
+                                <Button
+                                Margin="12,0,8,0"
+                                VerticalAlignment="Center"
+                                Background="Transparent"
+                                Click="StartBounds"
+                                ToolTip="Find the bounds of a screen visual">
+                                    <Button.Resources>
+                                        <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
+                                        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{DynamicResource ButtonPointerOverBackground}" />
+                                        <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White" />
+                                        <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource SystemAccentColor}" />
+                                    </Button.Resources>
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <ui:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEF20;" />
+                                            <TextBlock Margin="6,4,4,4" VerticalAlignment="Center">Bound</TextBlock>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+                                <Button
                                 Margin="8,0,8,0"
                                 VerticalAlignment="Center"
                                 Background="Transparent"
                                 Click="StartStretch"
                                 ToolTip="Find the spacing between two screen visuals">
-                                <Button.Resources>
-                                    <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
-                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{DynamicResource ButtonPointerOverBackground}" />
-                                    <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White" />
-                                    <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource SystemAccentColor}" />
-                                </Button.Resources>
-                                <Button.Content>
-                                    <StackPanel Orientation="Horizontal">
-                                        <ui:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE710;" />
-                                        <TextBlock Margin="6,4,4,4" VerticalAlignment="Center">Spacing</TextBlock>
-                                    </StackPanel>
-                                </Button.Content>
-                            </Button>
-                            <Button
+                                    <Button.Resources>
+                                        <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
+                                        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{DynamicResource ButtonPointerOverBackground}" />
+                                        <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White" />
+                                        <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource SystemAccentColor}" />
+                                    </Button.Resources>
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <ui:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE710;" />
+                                            <TextBlock Margin="6,4,4,4" VerticalAlignment="Center">Spacing</TextBlock>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+                                <Button
                                 Margin="8,0,8,0"
                                 VerticalAlignment="Center"
                                 Background="Transparent"
                                 Click="StartStretchEW"
                                 ToolTip="Find the spacing between two screen visuals horizontally">
-                                <Button.Resources>
-                                    <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
-                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{DynamicResource ButtonPointerOverBackground}" />
-                                    <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White" />
-                                    <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource SystemAccentColor}" />
-                                </Button.Resources>
-                                <Button.Content>
-                                    <StackPanel Orientation="Horizontal">
-                                        <ui:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE76F;" />
-                                        <TextBlock Margin="6,4,4,4" VerticalAlignment="Center">Horizontal</TextBlock>
-                                    </StackPanel>
-                                </Button.Content>
-                            </Button>
-                            <Button
+                                    <Button.Resources>
+                                        <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
+                                        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{DynamicResource ButtonPointerOverBackground}" />
+                                        <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White" />
+                                        <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource SystemAccentColor}" />
+                                    </Button.Resources>
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <ui:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE76F;" />
+                                            <TextBlock Margin="6,4,4,4" VerticalAlignment="Center">Horizontal</TextBlock>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+                                <Button
                                 Margin="8,0,8,0"
                                 VerticalAlignment="Center"
                                 Background="Transparent"
                                 Click="StartStretchNS"
                                 ToolTip="Find the spacing between two screen visuals vertically">
-                                <Button.Resources>
-                                    <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
-                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{DynamicResource ButtonPointerOverBackground}" />
-                                    <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White" />
-                                    <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource SystemAccentColor}" />
-                                </Button.Resources>
-                                <Button.Content>
-                                    <StackPanel Orientation="Horizontal">
-                                        <ui:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE784;" />
-                                        <TextBlock Margin="6,4,4,4" VerticalAlignment="Center">Vertical</TextBlock>
-                                    </StackPanel>
-                                </Button.Content>
-                            </Button>
-                            <Button
+                                    <Button.Resources>
+                                        <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
+                                        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{DynamicResource ButtonPointerOverBackground}" />
+                                        <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White" />
+                                        <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource SystemAccentColor}" />
+                                    </Button.Resources>
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <ui:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE784;" />
+                                            <TextBlock Margin="6,4,4,4" VerticalAlignment="Center">Vertical</TextBlock>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+                                <Button
                                 x:Name="CaptureButton"
                                 Margin="8,0,8,0"
                                 VerticalAlignment="Center"
@@ -1084,60 +1103,61 @@
                                 Click="StartCapture"
                                 ToolTip="Capture"
                                 Visibility="Collapsed">
-                                <Button.Resources>
-                                    <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
-                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{DynamicResource ButtonPointerOverBackground}" />
-                                    <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White" />
-                                    <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource SystemAccentColor}" />
-                                </Button.Resources>
-                                <Button.Content>
-                                    <StackPanel Orientation="Horizontal">
-                                        <ui:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE722;" />
-                                        <TextBlock Margin="6,4,4,4" VerticalAlignment="Center">Capture</TextBlock>
-                                    </StackPanel>
-                                </Button.Content>
-                            </Button>
-                            <Button
+                                    <Button.Resources>
+                                        <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
+                                        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{DynamicResource ButtonPointerOverBackground}" />
+                                        <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White" />
+                                        <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource SystemAccentColor}" />
+                                    </Button.Resources>
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <ui:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE722;" />
+                                            <TextBlock Margin="6,4,4,4" VerticalAlignment="Center">Capture</TextBlock>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+                                <Button
                                 x:Name="Magnify"
                                 Margin="8,0,8,0"
                                 VerticalAlignment="Center"
                                 Background="Transparent"
                                 Click="StartMagnify"
                                 ToolTip="Magnify">
-                                <Button.Resources>
-                                    <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
-                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{DynamicResource ButtonPointerOverBackground}" />
-                                    <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White" />
-                                    <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource SystemAccentColor}" />
-                                </Button.Resources>
-                                <Button.Content>
-                                    <StackPanel Orientation="Horizontal">
-                                        <ui:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8A3;" />
-                                        <TextBlock Margin="6,4,4,4" VerticalAlignment="Center">Magnify</TextBlock>
-                                    </StackPanel>
-                                </Button.Content>
-                            </Button>
-                            <Button
+                                    <Button.Resources>
+                                        <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
+                                        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{DynamicResource ButtonPointerOverBackground}" />
+                                        <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White" />
+                                        <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource SystemAccentColor}" />
+                                    </Button.Resources>
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <ui:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8A3;" />
+                                            <TextBlock Margin="6,4,4,4" VerticalAlignment="Center">Magnify</TextBlock>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+                                <Button
                                 x:Name="SettingsButton"
                                 Margin="8,0,8,0"
                                 VerticalAlignment="Center"
                                 Background="Transparent"
                                 Click="OpenSettings"
                                 ToolTip="Launch settings">
-                                <Button.Resources>
-                                    <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
-                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{DynamicResource ButtonPointerOverBackground}" />
-                                    <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White" />
-                                    <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource SystemAccentColor}" />
-                                </Button.Resources>
-                                <Button.Content>
-                                    <StackPanel Orientation="Horizontal">
-                                        <ui:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE713;" />
-                                        <TextBlock Margin="6,4,4,4" VerticalAlignment="Center">Settings</TextBlock>
-                                    </StackPanel>
-                                </Button.Content>
-                            </Button>
-                            <ui:AppBarSeparator BorderThickness="6" />
+                                    <Button.Resources>
+                                        <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
+                                        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{DynamicResource ButtonPointerOverBackground}" />
+                                        <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White" />
+                                        <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{StaticResource SystemAccentColor}" />
+                                    </Button.Resources>
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <ui:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE713;" />
+                                            <TextBlock Margin="6,4,4,4" VerticalAlignment="Center">Settings</TextBlock>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+                            </StackPanel>
+                            <ui:AppBarSeparator BorderThickness="6" VerticalAlignment="Center" />
                             <Border CornerRadius="16">
                                 <ui:AppBarButton
                                     Width="44"

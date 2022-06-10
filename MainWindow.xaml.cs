@@ -236,5 +236,12 @@ namespace Rooler
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        bool Collapsing = false;
+        private void COllapseClick(object sender, RoutedEventArgs e)
+        {
+            Collapsing = !Collapsing;
+            CollapsableRegion.Visibility = Collapsing ? Visibility.Collapsed : Visibility.Visible;
+            CollapseIcon.Glyph = Collapsing ? "\uE76C" : "\uE76B";
+        }
     }
 }
