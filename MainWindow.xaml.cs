@@ -19,9 +19,9 @@ namespace Rooler
 
         private List<IScreenService> currentServices = new List<IScreenService>();
 
-        private readonly WeakReference<Magnifier> magnifier = new(null);
+        public readonly WeakReference<Magnifier> magnifier = new(null);
 
-        private readonly WeakReference<Settings> settings = new(null);
+        public readonly WeakReference<Settings> settings = new(null);
 
         [DllImport("User32.dll")]
         private static extern int SetWindowBand(IntPtr hWnd, IntPtr hwndInsertAfter, uint dwBand);
@@ -38,7 +38,12 @@ namespace Rooler
 			//this.CaptureButton.Visibility = Visibility.Collapsed;
 #endif
 
-            new Dragger(this.Toolbar);
+            Loaded += delegate
+            {
+                Toolbar.Visibility = Visibility.Hidden;
+                new ToolbarWindow(this).Show();
+                new Dragger(this.Toolbar);
+            };
             // very painfull to debug but i have two monitors :cool:
             this.Topmost = true;
             this.DataContext = this;
@@ -196,7 +201,7 @@ namespace Rooler
         {
             base.OnMouseLeftButtonDown(e);
 
-            this.DragMove();
+            //this.DragMove();
         }
 
         protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e)

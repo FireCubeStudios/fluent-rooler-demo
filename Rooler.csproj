@@ -114,6 +114,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="ToolbarWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Tools\BoundsTool.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -155,6 +159,9 @@
       <SubType>Designer</SubType>
     </DesignTimeOnly>
     <Compile Include="Controls\FlyoutTool.cs" />
+    <Compile Include="ToolbarWindow.xaml.cs">
+      <DependentUpon>ToolbarWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Tools\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
