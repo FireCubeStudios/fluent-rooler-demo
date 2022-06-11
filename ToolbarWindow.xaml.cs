@@ -28,6 +28,7 @@ namespace Rooler
         private const int GWL_EX_STYLE = -20;
         private const int WS_EX_APPWINDOW = 0x00040000, WS_EX_TOOLWINDOW = 0x00000080;
         MainWindow MainWindow { get; }
+        IntRect ScreenBounds = ScreenShot.FullScreenBounds;
         public ToolbarWindow(MainWindow mainWindow)
         {
             InitializeComponent();
@@ -35,12 +36,37 @@ namespace Rooler
             Topmost = mainWindow.Topmost;
             ShowInTaskbar = mainWindow.ShowInTaskbar;
             MainWindow = mainWindow;
-            IntRect screenBounds = ScreenShot.FullScreenBounds;
-            Top = screenBounds.Top;
+            Top = ScreenBounds.Top;
             Loaded += delegate
             {
-                Left = (screenBounds.Width - ActualWidth) / 2;
+                Left = (ScreenBounds.Width - ActualWidth) / 2;
             };
+        }
+        protected override void OnLocationChanged(EventArgs e)
+        {
+            base.OnLocationChanged(e);
+            var cr = new CornerRadius(8);
+            if (Top <= 0)
+            {
+                cr.TopLeft = 0;
+                cr.TopRight = 0;
+            }
+            if (Left <= 0)
+            {
+                cr.TopLeft = 0;
+                cr.BottomLeft = 0;
+            }
+            if (Top + Height >= ScreenBounds.Bottom)
+            {
+                cr.BottomLeft = 0;
+                cr.BottomRight = 0;
+            }
+            if (Left + Width >= ScreenBounds.Right)
+            {
+                cr.TopRight = 0;
+                cr.BottomRight = 0;
+            }
+            Toolbar.CornerRadius = cr;
         }
         private void StartBounds(object sender, EventArgs e)
         {
